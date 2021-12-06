@@ -19,7 +19,7 @@ fn second(filename: &str) {
             if let Some(score) = boards[i].mark(number) {
                 if boards.len() == 1 {
                     println!("{}", score);
-                    return
+                    return;
                 } else {
                     to_delete.push(i);
                 }
@@ -30,7 +30,6 @@ fn second(filename: &str) {
         }
     }
 }
-
 
 fn first(filename: &str) {
     let (called_numbers, mut boards) = parse_input(filename);
@@ -44,7 +43,7 @@ fn first(filename: &str) {
     }
 }
 
-fn parse_input(filename: &str) -> (Vec<usize>, Vec<BingoBoard>){
+fn parse_input(filename: &str) -> (Vec<usize>, Vec<BingoBoard>) {
     let file = fs::read_to_string(filename).unwrap();
     let mut lines = file.trim().split("\n\n");
     let called_numbers = lines
