@@ -3,25 +3,20 @@ use std::str::FromStr;
 
 pub fn main() {
     let example = "../input/7.txt";
-    let numbers = util::read_input(example)
+
+    util::run_timed(|filename| part_two(filename), example, 7);
+}
+
+fn part_two(filename: &str) -> usize {
+    let numbers = util::read_input(filename)
         .trim()
         .split(',')
         .map(|value| usize::from_str(value).unwrap())
         .collect::<Vec<usize>>();
-    let minimum = *numbers.iter().min().unwrap();
-    let maximum = *numbers.iter().max().unwrap();
-    let minimum_fuel: usize = (minimum..maximum)
-        .map(|value| {
-            numbers
-                .iter()
-                .map(|&number| {
-                    fuel_two(number, value)
-                })
-                .sum()
-        })
+    (*numbers.iter().min().unwrap()..*numbers.iter().max().unwrap())
+        .map(|value| numbers.iter().map(|&number| fuel_two(number, value)).sum())
         .min()
-        .unwrap();
-    println!("{:?}", minimum_fuel)
+        .unwrap()
 }
 
 fn fuel_one(number_one: usize, number_two: usize) -> usize {
@@ -33,5 +28,10 @@ fn fuel_one(number_one: usize, number_two: usize) -> usize {
 }
 
 fn fuel_two(number_one: usize, number_two: usize) -> usize {
-    (1..=fuel_one(number_one,number_two)).sum::<usize>()
+    (1..=fuel_one(number_one, number_two)).sum::<usize>()
+}
+
+fn fuel_two_repl(number_one: usize, number_two: usize) -> usize {
+    let n = fuel_one(number_one, number_two);
+    n * (n+1) / 2
 }
